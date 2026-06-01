@@ -16,4 +16,8 @@ class TodoList {
     const newTodo = new Todo(Date.now(), title, priority);
     this.todos.push(newTodo);
   }
+
+  deleteTodo(id) {
+    this.todos.filter((todo) => todo.id !== id)
+  }
 }
