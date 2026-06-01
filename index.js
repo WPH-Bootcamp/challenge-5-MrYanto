@@ -12,8 +12,8 @@ class TodoList {
     this.todos = [];
   }
 
-  addTodo(title, priority) {
-    const newTodo = new Todo(Date.now(), title, priority);
+  addTodo(title, priority, id = Date.now(), completed = false) {
+    const newTodo = new Todo(id, title, priority, completed);
     this.todos.push(newTodo);
   }
 
@@ -63,7 +63,7 @@ async function fetchTodos() {
     );
     const data = await response.json();
     data.forEach((todo) => {
-      myList.addTodo(todo.title, 'low');
+      myList.addTodo(todo.title, 'low', todo.id, todo.completed);
     });
     renderTodo();
   } catch (error) {
@@ -94,3 +94,12 @@ function handleComplete(id) {
   myList.completeTodo(id);
   renderTodo();
 }
+
+function handleEdit(id) {
+  const newTitle = prompt('Edit todo:');
+  if (!newTitle.trim()) return;
+  myList.editTodo(id, newTitle);
+  renderTodo();
+}
+
+fetchTodos();
