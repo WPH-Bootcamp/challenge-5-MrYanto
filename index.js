@@ -18,7 +18,7 @@ class TodoList {
   }
 
   deleteTodo(id) {
-    this.todos.filter((todo) => todo.id !== id);
+    this.todos = this.todos.filter((todo) => todo.id !== id);
   }
 
   completeTodo(id) {
@@ -84,3 +84,8 @@ btnAdd.addEventListener('click', () => {
   renderTodo();
   inputTodo.value = '';
 });
+
+function handleDelete(id) {
+  myList.deleteTodo(id);
+  renderTodo();
+}
