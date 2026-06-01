@@ -18,11 +18,16 @@ class TodoList {
   }
 
   deleteTodo(id) {
-    this.todos.filter((todo) => todo.id !== id)
+    this.todos.filter((todo) => todo.id !== id);
   }
 
-  completeTodo() {
-    const todo = this.todos.find((todo) => todo.id === id)
-    todo.completed = !todo.completed
+  completeTodo(id) {
+    const todo = this.todos.find((todo) => todo.id === id);
+    todo.completed = !todo.completed;
+  }
+
+  editTodo(id, newTitle) {
+    const todo = this.todos.find((todo) => todo.id === id);
+    todo.title = newTitle;
   }
 }
