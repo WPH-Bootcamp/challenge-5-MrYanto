@@ -42,9 +42,12 @@ const myList = new TodoList();
 function renderTodo() {
   todoList.innerHTML = myList.todos
     .map((todo) => {
+      const label = `${todo.title} | Progress: ${todo.completed ? 'Completed' : 'WIP'}`;
       return `
       <li class="${todo.priority} ${todo.completed ? 'completed' : ''}">
-        <span>${todo.title} | Progress: ${todo.completed ? 'Completed' : 'WIP'}</span>
+        <span class="todo-text" title="${label}">
+          <span class="todo-text-inner">${label}</span>
+        </span>
         <div>
           <button onclick="handleComplete(${todo.id})">${todo.completed ? '✅' : '☑️'}</button>
           <button onclick="handleEdit(${todo.id})">Edit</button>
@@ -53,7 +56,7 @@ function renderTodo() {
       </li>
     `;
     })
-    .join();
+    .join("");
 }
 
 async function fetchTodos() {
@@ -101,5 +104,35 @@ function handleEdit(id) {
   myList.editTodo(id, newTitle);
   renderTodo();
 }
+
+todoList.addEventListener(
+  'mouseenter',
+  (e) => {
+    const block = e.target.closest('.todo-text');
+    if (!block) return;
+    block.classList.add('expanded');
+    block.classList.remove('collapsing');
+  },
+  true
+);
+
+todoList.addEventListener(
+  'mouseleave',
+  (e) => {
+    const block = e.target.closest('.todo-text');
+    if (!block || block.contains(e.relatedTarget)) return;
+
+    block.classList.remove('expanded');
+    block.classList.add('collapsing');
+
+    const onEnd = (ev) => {
+      if (ev.target !== block || ev.propertyName !== 'grid-template-rows') return;
+      block.classList.remove('collapsing');
+      block.removeEventListener('transitionend', onEnd);
+    };
+    block.addEventListener('transitionend', onEnd);
+  },
+  true
+);
 
 fetchTodos();
