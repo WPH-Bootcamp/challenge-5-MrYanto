@@ -44,9 +44,9 @@ function renderTodo() {
     .map((todo) => {
       return `
       <li class="${todo.priority} ${todo.completed ? 'completed' : ''}">
-        <span>${todo.title}</span>
+        <span>${todo.title} | Progress: ${todo.completed ? 'Completed' : 'WIP'}</span>
         <div>
-          <button onclick="handleComplete(${todo.id})">Done</button>
+          <button onclick="handleComplete(${todo.id})">${todo.completed ? '✅' : '☑️'}</button>
           <button onclick="handleEdit(${todo.id})">Edit</button>
           <button onclick="handleDelete(${todo.id})">Delete</button>
         </div>
@@ -87,5 +87,10 @@ btnAdd.addEventListener('click', () => {
 
 function handleDelete(id) {
   myList.deleteTodo(id);
+  renderTodo();
+}
+
+function handleComplete(id) {
+  myList.completeTodo(id);
   renderTodo();
 }
