@@ -70,3 +70,17 @@ async function fetchTodos() {
     todoList.innerHTML = `<p> Uh oh! Something went wrong. Error: ${error} </p>`;
   }
 }
+
+btnAdd.addEventListener('click', () => {
+  const title = inputTodo.value;
+  const priority = inputPriority.value;
+
+  if (!title.trim()) {
+    alert("Todo can't be left empty");
+    return;
+  }
+
+  myList.addTodo(title, priority);
+  renderTodo();
+  inputTodo.value = '';
+});
